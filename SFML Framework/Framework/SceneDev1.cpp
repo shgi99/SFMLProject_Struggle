@@ -1,14 +1,11 @@
 #include "stdafx.h"
 #include "SceneDev1.h"
-#include "AniPlayer.h"
-#include "AniPlayer2.h"
 SceneDev1::SceneDev1() : Scene(SceneIds::Dev1)
 {
 }
 
 void SceneDev1::Init()
 {
-	AddGo(new AniPlayer2("Ani Test"));
 	Scene::Init();
 }
 
