@@ -1,0 +1,10 @@
+{
+  "name": "run",
+  "loopType": "Loop",
+  "fps": 20,
+  "frames": [
+    { "texId": "resource/animation/player_run/player_run (1).png", "texCoord": [0, 0, 85, 81], "flipX": false },
+    { "texId": "resource/animation/player_run/player_run (2).png", "texCoord": [0, 0, 85, 81], "flipX": false },
+    { "texId": "resource/animation/player_run/player_run (3).png", "texCoord": [0, 0, 85, 81], "flipX": false }
+  ]
+}

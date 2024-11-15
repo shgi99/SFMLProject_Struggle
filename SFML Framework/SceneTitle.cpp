@@ -36,3 +36,15 @@ void SceneTitle::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
 }
+
+void SceneTitle::SceneChange(int i)
+{
+	if (i == 0)
+	{
+		SCENE_MGR.ChangeScene(SceneIds::Game);
+	}
+	else
+	{
+		SCENE_MGR.ChangeScene(SceneIds::Dev2);
+	}
+}

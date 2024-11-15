@@ -1,13 +1,16 @@
 #pragma once
-class Button;
-class UiTitle : public GameObject
+
+class PlungerWire : public GameObject
 {
 protected:
-	sf::Sprite backGroundSprite;
-	Button* button[2];
+	sf::Sprite body;
+	std::string textureId = "resource/graphics/Plunger (2).png";
+
+	sf::Vector2f direction;
+	float speed = 0.f;
 public:
-	UiTitle(const std::string& name = "");
-	~UiTitle() = default;
+	PlungerWire(const std::string& name = "");
+	~PlungerWire() = default;
 
 	void SetPosition(const sf::Vector2f& pos) override;
 	void SetRotation(float angle) override;
@@ -15,12 +18,13 @@ public:
 
 	void SetOrigin(Origins preset) override;
 	void SetOrigin(const sf::Vector2f& newOrigin) override;
+	sf::FloatRect GetLocalBounds() const;
 
 	void Init() override;
 	void Release() override;
 	void Reset() override;
 	void Update(float dt) override;
-	void FixedUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 
+	void Fire(const sf::Vector2f& pos, const sf::Vector2f& dir);
 };

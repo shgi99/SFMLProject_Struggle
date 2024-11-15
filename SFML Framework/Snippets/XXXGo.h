@@ -1,13 +1,12 @@
 #pragma once
-class Button;
-class UiTitle : public GameObject
+
+class XXXGo : public GameObject
 {
 protected:
-	sf::Sprite backGroundSprite;
-	Button* button[2];
+
 public:
-	UiTitle(const std::string& name = "");
-	~UiTitle() = default;
+	XXXGo(const std::string& name = "");
+	~XXXGo() = default;
 
 	void SetPosition(const sf::Vector2f& pos) override;
 	void SetRotation(float angle) override;
@@ -20,7 +19,6 @@ public:
 	void Release() override;
 	void Reset() override;
 	void Update(float dt) override;
-	void FixedUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
-
 };
+

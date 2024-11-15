@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Framework\AnimationClip.cpp" />
     <ClCompile Include="Framework\Animator.cpp" />
     <ClCompile Include="Framework\DataTableMgr.cpp" />
@@ -172,10 +173,14 @@
     <ClCompile Include="Framework\SoundMgr.cpp" />
     <ClCompile Include="Framework\StringTable.cpp" />
     <ClCompile Include="Framework\Variables.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlungerWire.cpp" />
+    <ClCompile Include="SceneGame.cpp" />
     <ClCompile Include="SceneTitle.cpp" />
     <ClCompile Include="UiTitle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Framework\AnimationClip.h" />
     <ClInclude Include="Framework\Animator.h" />
     <ClInclude Include="Framework\DataTableMgr.h" />
@@ -203,6 +208,9 @@
     <ClInclude Include="Framework\SoundMgr.h" />
     <ClInclude Include="Framework\StringTable.h" />
     <ClInclude Include="Framework\Variables.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlungerWire.h" />
+    <ClInclude Include="SceneGame.h" />
     <ClInclude Include="SceneTitle.h" />
     <ClInclude Include="UiTitle.h" />
   </ItemGroup>

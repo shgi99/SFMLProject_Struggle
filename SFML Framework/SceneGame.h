@@ -1,13 +1,14 @@
 #pragma once
 #include "Scene.h"
-class UiTitle;
-class SceneTitle : public Scene
+
+class Player;
+class SceneGame : public Scene
 {
 protected:
-	UiTitle* uiTitle;
+	Player* player;
 public:
-	SceneTitle();
-	~SceneTitle() = default;
+	SceneGame();
+	~SceneGame() = default;
 
 	void Init() override;
 	void Enter() override;
@@ -16,6 +17,5 @@ public:
 	void Update(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 
-	void SceneChange(int i);
 };
 

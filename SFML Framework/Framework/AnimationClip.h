@@ -25,6 +25,8 @@ struct AnimationClip
 	int fps = 30;
 	std::vector<AnimationFrame> frames;
 
+	AnimationLoopTypes parseLoopType(const std::string& loopTypeStr);
+
 	bool loadFromFile(const std::string& filePath);
 };
 

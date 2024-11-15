@@ -1,23 +1,35 @@
 #include "stdafx.h"
 #include "rapidcsv.h"
 #include "AnimationClip.h"
+AnimationLoopTypes AnimationClip::parseLoopType(const std::string& loopTypeStr) {
+	if (loopTypeStr == "Single") return AnimationLoopTypes::Single;
+	if (loopTypeStr == "Loop") return AnimationLoopTypes::Loop;
+	if (loopTypeStr == "PingPong") return AnimationLoopTypes::PingPong;
+	return AnimationLoopTypes::Single; // ±âº»°ª
+}
 
 bool AnimationClip::loadFromFile(const std::string& filePath)
 {
-	rapidcsv::Document doc(filePath);
-	id = doc.GetCell<std::string>(0, 0);
-	fps = doc.GetCell<int>(1, 0);
-	loopType = (AnimationLoopTypes)doc.GetCell<int>(2, 0);
+	std::ifstream f(filePath);
+	json j = json::parse(f);
 
-	frames.clear();
-	for (int i = 3; i < doc.GetRowCount(); ++i)
-	{
-		auto row = doc.GetRow<std::string>(i);
-		frames.push_back({ 
-			row[0], 
-			{ std::stoi(row[1]), std::stoi(row[2]), std::stoi(row[3]), std::stoi(row[4]) }
-			});
-	}
+	id = j["name"].get<std::string>();
+	loopType = parseLoopType(j["loopType"].get<std::string>());
+	fps = j["fps"].get<int>();
+
+
+    frames.clear();
+    for (const auto& frame : j["frames"]) {
+        frames.push_back({
+            frame["texId"].get<std::string>(),
+            sf::IntRect(
+                frame["texCoord"][0].get<int>(),
+                frame["texCoord"][1].get<int>(),
+                frame["texCoord"][2].get<int>(),
+                frame["texCoord"][3].get<int>()
+            )
+            });
+    }
 
 	return true;
 }
