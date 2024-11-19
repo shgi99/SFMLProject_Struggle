@@ -38,7 +38,7 @@ void BackGround::SetOrigin(const sf::Vector2f& newOrigin)
 void BackGround::Init()
 {
 	sortingLayer = SortingLayers::Background;
-	sortingOrder = 0;
+	sortingOrder = -1;
 }
 
 void BackGround::Release()
@@ -57,8 +57,8 @@ void BackGround::Reset()
 		cloud[i].setTexture(TEXTURE_MGR.Get(cloudTexId));
 		Utils::SetOrigin(cloud[i], Origins::TL);
 	}
-	cloud[0].setPosition(0.f, winSize.y - cloud[0].getLocalBounds().height);
-	cloud[1].setPosition(cloud[0].getGlobalBounds().width, winSize.y - cloud[0].getLocalBounds().height);
+	cloud[0].setPosition(0.f, winSize.y - cloud[0].getLocalBounds().height - 50.f);
+	cloud[1].setPosition(cloud[0].getGlobalBounds().width, winSize.y - cloud[0].getLocalBounds().height - 50.f);
 
 	body.setTexture(TEXTURE_MGR.Get(bodyTexId));
 	Utils::SetOrigin(body, Origins::BC);
@@ -105,3 +105,4 @@ void BackGround::Draw(sf::RenderWindow& window)
 	window.draw(face);
 	window.draw(scoreboard);
 }
+

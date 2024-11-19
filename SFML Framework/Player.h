@@ -1,5 +1,6 @@
 #pragma once
 class PlungerWire;
+class Ground;
 class Player : public GameObject
 {
 public:
@@ -11,7 +12,7 @@ public:
 	};
 protected:
 	PlungerWire* plungerWire = nullptr;
-
+	Ground* ground = nullptr;
 	sf::Sprite body;
 	Animator animator;
 	Status state;

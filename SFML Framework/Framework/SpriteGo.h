@@ -19,11 +19,19 @@ public:
 	void SetRotation(float angle) override;
 	void SetScale(const sf::Vector2f& pos) override;
 
+	sf::FloatRect GetLocalBounds() const override
+	{
+		return sprite.getLocalBounds();
+	}
+	sf::FloatRect GetGlobalBounds() const override
+	{
+		return sprite.getGlobalBounds();
+	}
+
 	void Init() override;
 	void Release() override;
 	void Reset() override;
 	void Update(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
-
 };
 

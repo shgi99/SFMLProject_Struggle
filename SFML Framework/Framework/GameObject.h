@@ -48,7 +48,10 @@ public:
 		origin = newOrigin;
 		originPreset = Origins::Custom;
 	}
-
+	virtual void Move(const sf::Vector2f& dir)
+	{
+		SetPosition(position + dir);
+	}
 	virtual sf::FloatRect GetLocalBounds() const 
 	{
 		return { 0.f, 0.f, 0.f, 0.f };

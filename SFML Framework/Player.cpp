@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "PlungerWire.h"
+#include "Ground.h"
 Player::Player(const std::string& name)
 	: GameObject(name)
 {
@@ -43,7 +44,7 @@ void Player::SetOrigin(const sf::Vector2f& newOrigin)
 void Player::Init()
 {
 	sortingLayer = SortingLayers::Foreground;
-	sortingOrder = 0;
+	sortingOrder = 2;
 
 	animator.SetTarget(&body);
 	animator.Play("animations/player_anim.json");
@@ -56,6 +57,7 @@ void Player::Release()
 
 void Player::Reset()
 {
+	ground = dynamic_cast<Ground*>(SCENE_MGR.GetCurrentScene()->FindGo("Ground"));
 	sf::Vector2f winSize = FRAMEWORK.GetWindowSizeF();
 	SetPosition({ winSize.x * 0.3f, winSize.y * 0.7f });
 	SetScale({ 1.f, 1.f });
@@ -72,10 +74,38 @@ void Player::Update(float dt)
 {
 	animator.Update(dt);
 	hitBox.UpdateTr(body, body.getGlobalBounds());
+
+	auto& groundTiles = ground->GetTiles();
+	for (const auto& tile : groundTiles)
+	{
+
+		if (!tile->IsActive()) // 비활성화된 타일은 무시
+			continue;
+
+		sf::FloatRect tileBounds = tile->GetGlobalBounds();
+		if (velocity.y > 0.f && tileBounds.contains(position.x, position.y))
+		{
+			velocity.y = 0.f;
+			position.y = tileBounds.top;
+			if(state != Status::Run)
+				animator.Play("animations/player_anim.json");
+			state = Status::Run;
+			isGrounded = true;
+			break;
+		}
+	}
+
+	if (position.y > groundTiles.front()->GetPosition().y + 30.f && state == Status::Run)
+	{
+		std::cout << "Game Over!" << std::endl;
+		return;
+	}
+
 	if (state == Status::Jump && InputMgr::GetMouseButtonDown(sf::Mouse::Right))
 	{
 		Shoot();
 	}
+
 	if (isGrounded && InputMgr::GetMouseButtonDown(sf::Mouse::Right))
 	{
 		isGrounded = false;
@@ -85,30 +115,17 @@ void Player::Update(float dt)
 		body.setTexture(TEXTURE_MGR.Get(jumpTexId));
 	}
 
-	if (!isGrounded)
+	velocity += gravity * dt;
+	if (velocity.y > 0.f) 
 	{
-		velocity += gravity * dt;
-
-		if (velocity.y > 0.f) 
-		{
-			velocity.y += 350.f * dt; 
-		}
+		velocity.y += 350.f * dt; 
 	}
 	position += velocity * dt;
-	const float groundLevel = FRAMEWORK.GetWindowSizeF().y * 0.7f; // 땅 높이
 
-	if (position.y > groundLevel)
-	{
-		velocity.y = 0.f;
-		position.y = groundLevel;
-		animator.Play("animations/player_anim.json");
-		state = Status::Run;
-		isGrounded = true;
-	}
 	SetPosition(position);
 	if (state == Status::Roll)
 	{
-		SetRotation(30.f);
+		SetRotation(rotation + 30.f * dt);
 	}
 }
 

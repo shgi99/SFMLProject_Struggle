@@ -51,6 +51,8 @@ void SpriteGo::Draw(sf::RenderWindow& window)
 	window.draw(sprite);
 }
 
+
+
 void SpriteGo::Init()
 {
 }

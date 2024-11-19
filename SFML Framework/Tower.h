@@ -1,14 +1,15 @@
 #pragma once
-class Ground : public GameObject
+
+class Tower : public GameObject
 {
 protected:
-	std::vector<SpriteGo*> groundTiles;
-	std::string groundTexId = "resource/graphics/ground.png";
-	float moveSpeed = 400.f;
+	sf::Sprite body;
+	std::string textureId = "resource/graphics/Tower.png";
 
+	float moveSpeed = 400.f;
 public:
-	Ground(const std::string& name = "");
-	~Ground() = default;
+	Tower(const std::string& name = "");
+	~Tower() = default;
 
 	void SetPosition(const sf::Vector2f& pos) override;
 	void SetRotation(float angle) override;
@@ -22,7 +23,4 @@ public:
 	void Reset() override;
 	void Update(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
-
-	const std::vector<SpriteGo*>& GetTiles() const { return groundTiles; }
-	void RemoveTile(int index);
 };
