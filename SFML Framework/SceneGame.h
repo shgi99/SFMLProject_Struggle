@@ -2,10 +2,12 @@
 #include "Scene.h"
 
 class Player;
+class BackGround;
 class SceneGame : public Scene
 {
 protected:
 	Player* player;
+	BackGround* background;
 public:
 	SceneGame();
 	~SceneGame() = default;

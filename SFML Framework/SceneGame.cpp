@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "SceneGame.h"
 #include "Player.h"
+#include "BackGround.h"
 SceneGame::SceneGame() : Scene(SceneIds::Game)
 {
 }
@@ -9,6 +10,8 @@ void SceneGame::Init()
 {
 	player = AddGo(new Player("Player"));
 	player->SetActive(true);
+	background = AddGo(new BackGround("BackGround"));
+	background->SetActive(true);
 	Scene::Init();
 }
 

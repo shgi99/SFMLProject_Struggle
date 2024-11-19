@@ -80,7 +80,6 @@ void PlungerWire::Update(float dt)
 void PlungerWire::Draw(sf::RenderWindow& window)
 {
 	window.draw(body);
-	hitBox.Draw(window);
 }
 
 void PlungerWire::Fire(const sf::Vector2f& pos, const sf::Vector2f& dir)

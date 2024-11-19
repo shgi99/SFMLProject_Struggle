@@ -115,7 +115,6 @@ void Player::Update(float dt)
 void Player::Draw(sf::RenderWindow& window)
 {
 	window.draw(body);
-	hitBox.Draw(window);
 
 	if (plungerWire != nullptr && plungerWire->IsActive())
 	{

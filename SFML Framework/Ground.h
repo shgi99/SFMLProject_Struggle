@@ -1,16 +1,13 @@
 #pragma once
-
-class PlungerWire : public GameObject
+class Ground : public GameObject
 {
 protected:
-	sf::Sprite body;
-	std::string textureId = "resource/graphics/Plunger.png";
-
-	sf::Vector2f direction;
-	float speed = 0.f;
+	std::vector<sf::Sprite> groundTiles;
+	std::string groundTexId = "resource/graphics/ground.png";
+	float moveSpeed = 200.f;
 public:
-	PlungerWire(const std::string& name = "");
-	~PlungerWire() = default;
+	Ground(const std::string& name = "");
+	~Ground() = default;
 
 	void SetPosition(const sf::Vector2f& pos) override;
 	void SetRotation(float angle) override;
@@ -18,13 +15,10 @@ public:
 
 	void SetOrigin(Origins preset) override;
 	void SetOrigin(const sf::Vector2f& newOrigin) override;
-	sf::FloatRect GetLocalBounds() const;
 
 	void Init() override;
 	void Release() override;
 	void Reset() override;
 	void Update(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
-
-	void Fire(const sf::Vector2f& pos, const sf::Vector2f& dir);
 };
