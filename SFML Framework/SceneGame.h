@@ -15,6 +15,7 @@ protected:
 
 	float obstacleTimer = 0.f;
 	float obstacleInterval = 5.f;
+	int consecutiveGaps = 0;
 public:
 	SceneGame();
 	~SceneGame() = default;

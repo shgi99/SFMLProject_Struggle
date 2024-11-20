@@ -1,5 +1,6 @@
 #pragma once
-
+class Player;
+class Tower;
 class PlungerWire : public GameObject
 {
 protected:
@@ -8,6 +9,11 @@ protected:
 
 	sf::Vector2f direction;
 	float speed = 0.f;
+
+	Player* player = nullptr;
+	Tower* tower = nullptr;
+
+	bool isAttached = false;
 public:
 	PlungerWire(const std::string& name = "");
 	~PlungerWire() = default;

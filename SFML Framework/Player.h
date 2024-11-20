@@ -15,13 +15,15 @@ protected:
 	Ground* ground = nullptr;
 	sf::Sprite body;
 	Animator animator;
-	Status state;
+
+	Status state, prevState;
 
 	std::string jumpTexId = "resource/animation/player_jump/jump.png";
 	std::string wireTexId = "resource/animation/player_jump/wire.png";
 	std::string rollingTexId = "resource/animation/player_jump/rolling.png";
 
 	sf::Vector2f gravity = { 0.f, 1000.f };
+	float wireMin = 0.f;
 	sf::Vector2f velocity = { 0.f, 0.f };
 	bool isGrounded = true;
 public:
@@ -38,8 +40,15 @@ public:
 	void Init() override;
 	void Release() override;
 	void Reset() override;
+
+	void HandleStateChange();
 	void Update(float dt) override;
+	void UpdateRun(float dt);
+	void UpdateJump(float dt);
+	void UpdateWire(float dt);
+	void UpdateRoll(float dt);
 	void Draw(sf::RenderWindow& window) override;
 
 	void Shoot();
+	void OnWireHitTower();
 };

@@ -2,10 +2,15 @@
 class Ground : public GameObject
 {
 protected:
-	std::vector<SpriteGo*> groundTiles;
+	std::vector<std::pair<SpriteGo*, bool>> groundTiles;
 	std::string groundTexId = "resource/graphics/ground.png";
 	float moveSpeed = 400.f;
 
+	int consecutiveGaps = 0; // 楷加 备港 俺荐
+	int gapTarget = -1;       // 楷加 备港 格钎
+	int tilesAfterGap = 0;
+
+	const int minTilesAfterGap = 5;
 public:
 	Ground(const std::string& name = "");
 	~Ground() = default;
@@ -23,6 +28,6 @@ public:
 	void Update(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 
-	const std::vector<SpriteGo*>& GetTiles() const { return groundTiles; }
+	const std::vector<std::pair<SpriteGo*, bool>>& GetTiles() const { return groundTiles; }
 	void RemoveTile(int index);
 };

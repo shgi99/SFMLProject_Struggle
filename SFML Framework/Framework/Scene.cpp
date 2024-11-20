@@ -47,8 +47,13 @@ void Scene::Update(float dt)
 	for (auto obj : gameObjects)
 	{
 		if (!obj->IsActive())
-			continue;
-		obj->Update(dt);
+		{
+			obj->UpdateInactive(dt);
+		}
+		else
+		{
+			obj->Update(dt);
+		}
 	}
 }
 

@@ -43,6 +43,11 @@ void Ground::Init()
 
 void Ground::Release()
 {
+	for (auto& pair : groundTiles)
+	{
+		delete pair.first;
+	}
+	groundTiles.clear();
 }
 
 void Ground::Reset()
@@ -57,35 +62,68 @@ void Ground::Reset()
 		tile->SetOrigin(Origins::TL);
 		tile->SetPosition({ 150.f * i, winSize.y - 150.f });
 		tile->SetActive(true);
-		groundTiles.push_back(tile);
+		groundTiles.push_back({ tile, false });
 	}
+
+	gapTarget = -1;
+	consecutiveGaps = 0;
+	tilesAfterGap = 0;
 }
 
 void Ground::Update(float dt)
 {
-	for (auto& tile : groundTiles)
+
+	for (auto& pair : groundTiles)
 	{
-		tile->Move({ -moveSpeed * dt, 0.f });
+		pair.first->Move({ -moveSpeed * dt, 0.f });
 	}
 
 
-	if (!groundTiles.empty() && groundTiles.front()->GetGlobalBounds().left + 225.f < 0.f)
+	if (!groundTiles.empty() && groundTiles.front().first->GetGlobalBounds().left + 225.f < 0.f)
 	{
-		SpriteGo* frontTile = groundTiles.front();
-		frontTile->SetActive(true);
-		frontTile->SetPosition({ groundTiles.back()->GetPosition().x + 150.f , frontTile->GetPosition().y });
+		auto& frontTile = groundTiles.front();
+		SpriteGo* tile = frontTile.first;
+		bool isGap = frontTile.second;
+
+		tile->SetActive(true); 
+		isGap = false;
+
+		// 备港 菩畔 汲沥
+		if (gapTarget == -1 && tilesAfterGap >= minTilesAfterGap)
+		{
+			gapTarget = rand() % 3 + 1; 
+			consecutiveGaps = 0;
+			tilesAfterGap = 0;
+		}
+
+		// 备港 积己
+		if (consecutiveGaps < gapTarget)
+		{
+			isGap = true;
+			tile->SetActive(false);
+			consecutiveGaps++;
+		}
+		else 
+		{
+			gapTarget = -1;
+			tilesAfterGap++;
+			isGap = false;
+		}
+
+		tile->SetPosition({ groundTiles.back().first->GetPosition().x + 150.f, tile->GetPosition().y });
 		groundTiles.erase(groundTiles.begin());
-		groundTiles.push_back(frontTile);
+		std::cout << isGap << std::endl;
+		groundTiles.push_back({tile, isGap });
 	}
 } 
 
 void Ground::Draw(sf::RenderWindow& window)
 {
-	for (const auto& tile : groundTiles)
+	for (const auto& pair : groundTiles)
 	{
-		if (tile->IsActive())
+		if (pair.first->IsActive())
 		{
-			tile->Draw(window);
+			pair.first->Draw(window);
 		}
 	}
 }
@@ -94,6 +132,7 @@ void Ground::RemoveTile(int index)
 {
 	if (index >= 0 && index < groundTiles.size())
 	{
-		groundTiles[index]->SetActive(false);
+		groundTiles[index].first->SetActive(false);
+		groundTiles[index].second = true;
 	}
 }

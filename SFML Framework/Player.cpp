@@ -63,11 +63,35 @@ void Player::Reset()
 	SetScale({ 1.f, 1.f });
 	SetOrigin(Origins::BC);
 	state = Status::Run;
+	prevState = Status::Run;
 	isGrounded = true;
 	velocity = { 0.f, 0.f }; 
-	gravity = { 0.f, 980.f }; 
-
+	gravity = { 0.f, 2500.f }; 
+	wireMin = GetPosition().y + 50.f;
 	animator.Play("animations/player_anim.json");
+}
+
+void Player::HandleStateChange()
+{
+	switch (state)
+	{
+	case Status::Run:
+		animator.Play("animations/player_anim.json");
+		SetRotation(0.f);
+		break;
+	case Status::Jump:
+		animator.Stop();
+		body.setTexture(TEXTURE_MGR.Get(jumpTexId));
+		break;
+	case Status::Wire:
+		animator.Stop();
+		body.setTexture(TEXTURE_MGR.Get(wireTexId));
+		break;
+	case Status::Roll:
+		animator.Stop();
+		body.setTexture(TEXTURE_MGR.Get(rollingTexId));
+		break;
+	}
 }
 
 void Player::Update(float dt)
@@ -75,57 +99,116 @@ void Player::Update(float dt)
 	animator.Update(dt);
 	hitBox.UpdateTr(body, body.getGlobalBounds());
 
+	switch (state)
+	{
+	case Status::Run:
+		UpdateRun(dt);
+		break;
+	case Status::Jump:
+		UpdateJump(dt);
+		break;
+	case Status::Wire:
+		UpdateWire(dt);
+		break;
+	case Status::Roll:
+		UpdateRoll(dt);
+		break;
+	}
+
+	if (prevState != state)
+	{
+		HandleStateChange();
+		prevState = state;
+	}
+	SetPosition(position);
+}
+
+void Player::UpdateRun(float dt)
+{
 	auto& groundTiles = ground->GetTiles();
 	for (const auto& tile : groundTiles)
 	{
-
-		if (!tile->IsActive()) // 비활성화된 타일은 무시
-			continue;
-
-		sf::FloatRect tileBounds = tile->GetGlobalBounds();
+		if (!tile.first->IsActive()) continue;
+		SetRotation(0.f);
+		sf::FloatRect tileBounds = tile.first->GetGlobalBounds();
 		if (velocity.y > 0.f && tileBounds.contains(position.x, position.y))
 		{
 			velocity.y = 0.f;
 			position.y = tileBounds.top;
-			if(state != Status::Run)
-				animator.Play("animations/player_anim.json");
-			state = Status::Run;
-			isGrounded = true;
-			break;
 		}
 	}
 
-	if (position.y > groundTiles.front()->GetPosition().y + 30.f && state == Status::Run)
-	{
-		std::cout << "Game Over!" << std::endl;
-		return;
-	}
-
-	if (state == Status::Jump && InputMgr::GetMouseButtonDown(sf::Mouse::Right))
-	{
-		Shoot();
-	}
-
-	if (isGrounded && InputMgr::GetMouseButtonDown(sf::Mouse::Right))
+	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right))
 	{
 		isGrounded = false;
 		state = Status::Jump;
-		velocity.y = -450.f;
-		animator.Stop();
-		body.setTexture(TEXTURE_MGR.Get(jumpTexId));
+		velocity.y = -700.f;
 	}
+	velocity.y += gravity.y * dt;
+	position.y += velocity.y * dt;
+}
 
-	velocity += gravity * dt;
-	if (velocity.y > 0.f) 
-	{
-		velocity.y += 350.f * dt; 
-	}
+void Player::UpdateJump(float dt)
+{
+	velocity.y += gravity.y * dt;
 	position += velocity * dt;
 
-	SetPosition(position);
-	if (state == Status::Roll)
+	auto& groundTiles = ground->GetTiles();
+	for (const auto& tile : groundTiles)
 	{
-		SetRotation(rotation + 30.f * dt);
+		if (!tile.first->IsActive()) continue;
+
+		sf::FloatRect tileBounds = tile.first->GetGlobalBounds();
+		if (velocity.y > 0.f && tileBounds.contains(position.x, position.y))
+		{
+			velocity.y = 0.f;
+			position.y = tileBounds.top;
+			state = Status::Run;
+			isGrounded = true;
+			return;
+		}
+	}
+
+	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right))
+	{
+		Shoot(); // 와이어 발사
+	}
+}
+
+
+void Player::UpdateWire(float dt)
+{
+	body.setTexture(TEXTURE_MGR.Get(wireTexId));
+	velocity.y += gravity.y * dt;
+	position.y += velocity.y * dt;
+
+	if (position.y > wireMin)
+	{
+		velocity.y = -1500.f; // 위로 상승
+	}
+	else if (position.y < plungerWire->GetPosition().y)
+	{
+		velocity.y = -500.f; // 아래로 하강
+		state = Status::Roll;
+	}
+}
+
+
+void Player::UpdateRoll(float dt)
+{
+	body.setTexture(TEXTURE_MGR.Get(rollingTexId));
+	SetRotation(rotation + 1.f);
+	velocity.y += gravity.y * dt;
+	position.y += velocity.y * dt;
+
+	if (position.y > wireMin)
+	{
+		if(plungerWire != nullptr)
+		{
+			SCENE_MGR.GetCurrentScene()->RemoveGo(plungerWire);
+			plungerWire = nullptr;
+		}
+		state = Status::Run;
 	}
 }
 
@@ -166,5 +249,11 @@ void Player::Shoot()
 
 	plungerWire->Fire(startPosition, direction);
 	plungerWire->SetActive(true);
+}
+
+void Player::OnWireHitTower()
+{
+	state = Status::Wire;
+
 }
 

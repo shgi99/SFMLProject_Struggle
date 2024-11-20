@@ -67,6 +67,7 @@ public:
 	virtual void Reset() = 0;
 
 	virtual void Update(float dt) = 0;
+	virtual void UpdateInactive(float dt) {};
 	virtual void LateUpdate(float dt) {}
 	virtual void FixedUpdate(float dt) {}
 	virtual void Draw(sf::RenderWindow& window) = 0;

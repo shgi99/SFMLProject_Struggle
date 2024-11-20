@@ -1,5 +1,5 @@
 #pragma once
-
+class Ground;
 class Tower : public GameObject
 {
 protected:
@@ -7,6 +7,10 @@ protected:
 	std::string textureId = "resource/graphics/Tower.png";
 
 	float moveSpeed = 400.f;
+	Ground* ground = nullptr;
+	int consecutiveGaps = 0;
+
+	
 public:
 	Tower(const std::string& name = "");
 	~Tower() = default;
@@ -22,5 +26,8 @@ public:
 	void Release() override;
 	void Reset() override;
 	void Update(float dt) override;
+	void UpdateInactive(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
+
+	sf::FloatRect GetTopBounds() const;
 };
