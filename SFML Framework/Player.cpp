@@ -59,12 +59,12 @@ void Player::Reset()
 {
 	ground = dynamic_cast<Ground*>(SCENE_MGR.GetCurrentScene()->FindGo("Ground"));
 	sf::Vector2f winSize = FRAMEWORK.GetWindowSizeF();
-	SetPosition({ winSize.x * 0.3f, winSize.y * 0.7f });
+	SetPosition({ winSize.x * 0.3f, winSize.y * 0.8f });
 	SetScale({ 1.f, 1.f });
 	SetOrigin(Origins::BC);
 	state = Status::Run;
 	prevState = Status::Run;
-	isGrounded = true;
+	isGrounded = false;
 	velocity = { 0.f, 0.f }; 
 	gravity = { 0.f, 2500.f }; 
 	wireMin = GetPosition().y + 50.f;
@@ -96,6 +96,12 @@ void Player::HandleStateChange()
 
 void Player::Update(float dt)
 {
+	if (state == Status::GameOver)
+	{
+		animator.Stop();
+		body.setTexture(TEXTURE_MGR.Get(deadTexId));
+		return;
+	}
 	animator.Update(dt);
 	hitBox.UpdateTr(body, body.getGlobalBounds());
 
@@ -120,21 +126,24 @@ void Player::Update(float dt)
 		HandleStateChange();
 		prevState = state;
 	}
+	CheckGameOver();
 	SetPosition(position);
 }
 
 void Player::UpdateRun(float dt)
 {
+	isGrounded = false;
 	auto& groundTiles = ground->GetTiles();
 	for (const auto& tile : groundTiles)
 	{
 		if (!tile.first->IsActive()) continue;
 		SetRotation(0.f);
 		sf::FloatRect tileBounds = tile.first->GetGlobalBounds();
-		if (velocity.y > 0.f && tileBounds.contains(position.x, position.y))
+		if (velocity.y >= 0.f && tileBounds.contains(position.x, position.y))
 		{
 			velocity.y = 0.f;
 			position.y = tileBounds.top;
+			isGrounded = true;
 		}
 	}
 
@@ -255,5 +264,22 @@ void Player::OnWireHitTower()
 {
 	state = Status::Wire;
 
+}
+
+void Player::CheckGameOver()
+{
+	sf::Vector2f winSize = FRAMEWORK.GetWindowSizeF();
+
+	if (state == Status::Run)
+	{
+		if (!isGrounded)
+		{
+			state = Status::GameOver;
+		}
+	}
+	else if ((state == Status::Jump || state == Status::Roll || state == Status::Wire) && position.y >= winSize.y)
+	{
+		state = Status::GameOver;
+	}
 }
 

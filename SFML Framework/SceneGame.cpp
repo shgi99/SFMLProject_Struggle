@@ -38,6 +38,13 @@ void SceneGame::Update(float dt)
 {
 	Scene::Update(dt);
 
+	if (player->GetState() == Player::Status::GameOver)
+	{
+		ground->SetPaused(true);
+		tower->SetPaused(true);
+		return;
+	}
+
 }
 
 void SceneGame::Draw(sf::RenderWindow& window)

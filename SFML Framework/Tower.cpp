@@ -64,6 +64,10 @@ void Tower::Reset()
 
 void Tower::Update(float dt)
 {
+	if (isPaused)
+	{
+		return;
+	}
 	hitBox.UpdateTr(body, GetTopBounds());
 	if (IsActive()) {
 		Move({ -moveSpeed * dt, 0.f });

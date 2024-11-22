@@ -72,7 +72,10 @@ void Ground::Reset()
 
 void Ground::Update(float dt)
 {
-
+	if (isPaused)
+	{
+		return;
+	}
 	for (auto& pair : groundTiles)
 	{
 		pair.first->Move({ -moveSpeed * dt, 0.f });

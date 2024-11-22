@@ -8,6 +8,7 @@ protected:
 	std::string name;
 	
 	bool active = true;
+	bool isPaused = false;
 
 	sf::Vector2f position;
 	float rotation = 0.f;
@@ -30,6 +31,9 @@ public:
 
 	bool IsActive() const { return active; }
 	void SetActive(bool a) { active = a; }
+
+	bool IsPaused() const { return isPaused; }
+	void SetPaused(bool paused) { isPaused = paused; }
 
 	sf::Vector2f GetPosition() const { return position; }
 	virtual void SetPosition(const sf::Vector2f& pos) { position = pos; }

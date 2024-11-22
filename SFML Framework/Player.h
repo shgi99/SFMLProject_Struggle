@@ -9,6 +9,7 @@ public:
 		Jump,
 		Wire,
 		Roll,
+		GameOver,
 	};
 protected:
 	PlungerWire* plungerWire = nullptr;
@@ -21,6 +22,7 @@ protected:
 	std::string jumpTexId = "resource/animation/player_jump/jump.png";
 	std::string wireTexId = "resource/animation/player_jump/wire.png";
 	std::string rollingTexId = "resource/animation/player_jump/rolling.png";
+	std::string deadTexId = "resource/player_death_animation/dead.png";
 
 	sf::Vector2f gravity = { 0.f, 1000.f };
 	float wireMin = 0.f;
@@ -51,4 +53,7 @@ public:
 
 	void Shoot();
 	void OnWireHitTower();
+	void CheckGameOver();
+
+	Status GetState() const { return state; }
 };
