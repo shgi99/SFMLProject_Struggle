@@ -67,7 +67,7 @@ void Player::Reset()
 	isGrounded = false;
 	velocity = { 0.f, 0.f }; 
 	gravity = { 0.f, 2500.f }; 
-	wireMin = GetPosition().y + 50.f;
+	wireMin = GetPosition().y;
 	animator.Play("animations/player_anim.json");
 }
 
@@ -210,9 +210,24 @@ void Player::UpdateRoll(float dt)
 	velocity.y += gravity.y * dt;
 	position.y += velocity.y * dt;
 
-	if (position.y > wireMin)
+	auto& groundTiles = ground->GetTiles();
+	for (const auto& tile : groundTiles)
 	{
-		if(plungerWire != nullptr)
+		if (!tile.first->IsActive()) continue;
+
+		sf::FloatRect tileBounds = tile.first->GetGlobalBounds();
+		if (velocity.y >= 0.f && tileBounds.contains(position.x, position.y))
+		{
+			velocity.y = 0.f;            
+			position.y = tileBounds.top; 
+			isGrounded = true;           
+			break;
+		}
+	}
+
+	if (isGrounded)
+	{
+		if (plungerWire != nullptr)
 		{
 			SCENE_MGR.GetCurrentScene()->RemoveGo(plungerWire);
 			plungerWire = nullptr;
