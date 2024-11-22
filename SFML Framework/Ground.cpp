@@ -39,6 +39,7 @@ void Ground::Init()
 {
 	sortingLayer = SortingLayers::Foreground;
 	sortingOrder = 0;
+	moveSpeed = 400.f;
 }
 
 void Ground::Release()

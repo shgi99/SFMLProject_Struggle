@@ -48,5 +48,4 @@ void Framework::Do()
 void Framework::Release()
 {
     SCENE_MGR.Release();
-    FONT_MGR.Unload("fonts/DS-DIGI.ttf");
 }

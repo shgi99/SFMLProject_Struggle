@@ -44,6 +44,7 @@ void Tower::Init()
 {
 	sortingLayer = SortingLayers::Foreground;
 	sortingOrder = 1;
+	moveSpeed = 400.f;
 }
 
 void Tower::Release()

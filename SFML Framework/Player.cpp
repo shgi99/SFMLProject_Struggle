@@ -41,6 +41,11 @@ void Player::SetOrigin(const sf::Vector2f& newOrigin)
 	body.setOrigin(origin);
 }
 
+sf::FloatRect Player::GetGlobalBounds() const
+{
+	return body.getGlobalBounds();
+}
+
 void Player::Init()
 {
 	sortingLayer = SortingLayers::Foreground;
@@ -226,14 +231,14 @@ void Player::UpdateRoll(float dt)
 	}
 
 	if (isGrounded)
-	{
-		if (plungerWire != nullptr)
-		{
-			SCENE_MGR.GetCurrentScene()->RemoveGo(plungerWire);
-			plungerWire = nullptr;
-		}
-		state = Status::Run;
-	}
+    {
+        if (plungerWire != nullptr)
+        {
+            SCENE_MGR.GetCurrentScene()->RemoveGo(plungerWire);
+            plungerWire = nullptr;
+        }
+        state = Status::Run;
+    }
 }
 
 void Player::Draw(sf::RenderWindow& window)

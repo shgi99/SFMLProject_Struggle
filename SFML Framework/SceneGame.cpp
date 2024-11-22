@@ -4,6 +4,7 @@
 #include "BackGround.h"
 #include "Ground.h"
 #include "Tower.h"
+#include "CoinSpawner.h"
 SceneGame::SceneGame() : Scene(SceneIds::Game)
 {
 }
@@ -14,6 +15,7 @@ void SceneGame::Init()
 	background = AddGo(new BackGround("BackGround"));
 	ground = AddGo(new Ground("Ground"));
 	tower = AddGo(new Tower("Tower"));
+	coinSpawner = AddGo(new CoinSpawner("Coin Spawner"));
 	Scene::Init();
 }
 
@@ -26,6 +28,9 @@ void SceneGame::Enter()
 	uiView.setCenter(size * 0.5f);
 	obstacleTimer = 0.f;
 	consecutiveGaps = 0;
+	score = 0;
+	stage = 1;
+	isGoldPatternActive = false;
 	Scene::Enter();
 }
 
@@ -42,14 +47,30 @@ void SceneGame::Update(float dt)
 	{
 		ground->SetPaused(true);
 		tower->SetPaused(true);
+		coinSpawner->SetPaused(true);
 		return;
 	}
 
+	if (tower->IsActive() && !isGoldPatternActive)
+	{
+		coinSpawner->StartGoldCoinPattern();
+		isGoldPatternActive = true;
+	}
+	else if (!tower->IsActive() && isGoldPatternActive)
+	{
+		isGoldPatternActive = false; 
+	}
 }
 
 void SceneGame::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
+}
+
+void SceneGame::AddScore(int s)
+{
+	score += s;
+	std::cout << "Score : " << score << std::endl;
 }
 
 

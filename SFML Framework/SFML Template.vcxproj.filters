@@ -111,6 +111,12 @@
     <ClCompile Include="Tower.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CoinSpawner.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\InputMgr.h">
@@ -219,6 +225,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Tower.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Coin.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CoinSpawner.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
