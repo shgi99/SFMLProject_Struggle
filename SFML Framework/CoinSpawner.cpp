@@ -230,14 +230,24 @@ void CoinSpawner::SpawnGoldCoins(const std::vector<sf::Vector2f>& patternPositio
 void CoinSpawner::GrantGoldBonus()
 {
 	int bonus = 200;
+	sceneGame->PlayBonusMessage();
 	std::cout << "Bonus!" << std::endl;
 	sceneGame->AddScore(bonus);
 }
 
 void CoinSpawner::ReturnCoin(Coin* coin)
 {
+	if (!coin)
+		return;
+
 	coin->SetActive(false);
-	activeCoins.remove(coin);
+
+	auto it = std::find(activeCoins.begin(), activeCoins.end(), coin);
+	if (it != activeCoins.end())
+	{
+		activeCoins.erase(it);
+	}
+
 	coinPool.Return(coin);
 }
 
@@ -271,7 +281,6 @@ void CoinSpawner::StartGoldCoinPattern()
 		return;
 	}
 
-	// 랜덤한 금화 패턴 선택
 	int patternIndex = Utils::RandomRange(0, goldPatterns.size() - 1);
 	const auto& selectedPattern = goldPatterns[patternIndex];
 
@@ -281,7 +290,7 @@ void CoinSpawner::StartGoldCoinPattern()
 	{
 		for (int heightIndex : selectedPattern[i])
 		{
-			float xPosition = FRAMEWORK.GetWindowSizeF().x + i * 60.f; // 열 간격
+			float xPosition = FRAMEWORK.GetWindowSizeF().x + i * 50.f; 
 			float yPosition = coinPosY[heightIndex];
 			patternPositions.emplace_back(xPosition, yPosition);
 		}

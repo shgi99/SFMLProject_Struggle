@@ -181,7 +181,9 @@
     <ClCompile Include="PlungerWire.cpp" />
     <ClCompile Include="SceneGame.cpp" />
     <ClCompile Include="SceneTitle.cpp" />
+    <ClCompile Include="ScoreUI.cpp" />
     <ClCompile Include="Tower.cpp" />
+    <ClCompile Include="UIGameOver.cpp" />
     <ClCompile Include="UiTitle.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -221,7 +223,9 @@
     <ClInclude Include="PlungerWire.h" />
     <ClInclude Include="SceneGame.h" />
     <ClInclude Include="SceneTitle.h" />
+    <ClInclude Include="ScoreUI.h" />
     <ClInclude Include="Tower.h" />
+    <ClInclude Include="UIGameOver.h" />
     <ClInclude Include="UiTitle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

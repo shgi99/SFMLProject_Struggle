@@ -40,6 +40,7 @@ public:
 	void SetOrigin(const sf::Vector2f& newOrigin) override;
 
 	sf::FloatRect GetGlobalBounds() const override;
+	sf::Sprite GetSprite() { return body; }
 	void Init() override;
 	void Release() override;
 	void Reset() override;

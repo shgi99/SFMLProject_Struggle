@@ -22,6 +22,11 @@ protected:
 	std::string speedUpTexId = "resource/graphics/background/speedup_face.png";
 
 	float moveSpeed = 100.f;
+
+	sf::Sprite highScoreDigits[7];
+	sf::Sprite digitTextures[10]; 
+
+	int highScore = 0; 
 public:
 	BackGround(const std::string& name = "");
 	~BackGround() = default;
@@ -38,4 +43,6 @@ public:
 	void Reset() override;
 	void Update(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
+
+	void SetHighScore(int score);
 };

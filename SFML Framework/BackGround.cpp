@@ -76,7 +76,14 @@ void BackGround::Reset()
 	Utils::SetOrigin(scoreboard, Origins::BC);
 	scoreboard.setPosition(arm.getPosition().x, arm.getPosition().y - arm.getLocalBounds().height + 30.f);
 
+	for (int i = 0; i < 10; i++)
+	{
+		digitTextures[i].setTexture(TEXTURE_MGR.Get("resource/graphics/highscore_sprite/highscore_sprite (" + std::to_string(i + 1) + ").png"));
+		Utils::SetOrigin(digitTextures[i], Origins::TL);
+	}
+
 	moveSpeed = 200.f;
+	SetHighScore(highScore);
 }
 
 void BackGround::Update(float dt)
@@ -104,5 +111,33 @@ void BackGround::Draw(sf::RenderWindow& window)
 	window.draw(arm);
 	window.draw(face);
 	window.draw(scoreboard);
+
+	for (auto& digit : highScoreDigits)
+	{
+		window.draw(digit);
+	}
+}
+
+void BackGround::SetHighScore(int score)
+{
+	highScore = score;
+
+
+	std::string scoreStr = std::to_string(highScore);
+	while (scoreStr.size() < 7)
+	{
+		scoreStr = "0" + scoreStr;
+	}
+
+	highScoreDigits[0].setPosition(scoreboard.getPosition().x - 60.f, scoreboard.getPosition().y - 65.f);
+	float xOffset = highScoreDigits[0].getPosition().x;
+
+	for (int i = 0; i < scoreStr.size(); ++i)
+	{
+		int digitValue = scoreStr[i] - '0'; // ASCII 값 변환
+		highScoreDigits[i] = digitTextures[digitValue];
+		highScoreDigits[i].setPosition(xOffset + i * (highScoreDigits[i].getLocalBounds().width - 15.f), scoreboard.getPosition().y - 65.f);
+		highScoreDigits[i].setScale(1.f, 1.f); // 적절한 스케일 조정
+	}
 }
 

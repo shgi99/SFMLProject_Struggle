@@ -80,7 +80,7 @@ void Coin::Update(float dt)
 		return;
 	}
 
-	if (GetGlobalBounds().intersects(player->GetGlobalBounds()))
+	if (Utils::CheckCollision(body, player->GetSprite()))
 	{
 		if (player)
 		{

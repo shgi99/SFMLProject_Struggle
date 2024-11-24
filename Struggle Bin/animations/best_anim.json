@@ -1,0 +1,33 @@
+{
+  "name": "best",
+  "loopType": "Single",
+  "fps": 20,
+  "frames": [
+    { "texId": "resource/best_sprite/best_sprite (1).png", "texCoord": [0, 0, 490, 130], "flipX": false },
+    { "texId": "resource/best_sprite/best_sprite (2).png", "texCoord": [0, 0, 490, 130], "flipX": false },
+    { "texId": "resource/best_sprite/best_sprite (3).png", "texCoord": [0, 0, 490, 130], "flipX": false },
+    { "texId": "resource/best_sprite/best_sprite (4).png", "texCoord": [0, 0, 490, 130], "flipX": false },
+    { "texId": "resource/best_sprite/best_sprite (5).png", "texCoord": [0, 0, 490, 130], "flipX": false },
+    { "texId": "resource/best_sprite/best_sprite (6).png", "texCoord": [0, 0, 490, 130], "flipX": false },
+    { "texId": "resource/best_sprite/best_sprite (7).png", "texCoord": [0, 0, 490, 130], "flipX": false },
+    { "texId": "resource/best_sprite/best_sprite (8).png", "texCoord": [0, 0, 490, 130], "flipX": false },
+    { "texId": "resource/best_sprite/best_sprite (9).png", "texCoord": [0, 0, 490, 130], "flipX": false },
+    { "texId": "resource/best_sprite/best_sprite (10).png", "texCoord": [0, 0, 490, 130], "flipX": false },
+    { "texId": "resource/best_sprite/best_sprite (11).png", "texCoord": [0, 0, 490, 130], "flipX": false },
+    { "texId": "resource/best_sprite/best_sprite (12).png", "texCoord": [0, 0, 490, 130], "flipX": false },
+    { "texId": "resource/best_sprite/best_sprite (13).png", "texCoord": [0, 0, 490, 130], "flipX": false },
+    { "texId": "resource/best_sprite/best_sprite (14).png", "texCoord": [0, 0, 490, 130], "flipX": false },
+    { "texId": "resource/best_sprite/best_sprite (15).png", "texCoord": [0, 0, 490, 130], "flipX": false },
+    { "texId": "resource/best_sprite/best_sprite (16).png", "texCoord": [0, 0, 490, 130], "flipX": false },
+    { "texId": "resource/best_sprite/best_sprite (17).png", "texCoord": [0, 0, 490, 130], "flipX": false },
+    { "texId": "resource/best_sprite/best_sprite (18).png", "texCoord": [0, 0, 490, 130], "flipX": false },
+    { "texId": "resource/best_sprite/best_sprite (19).png", "texCoord": [0, 0, 490, 130], "flipX": false },
+    { "texId": "resource/best_sprite/best_sprite (20).png", "texCoord": [0, 0, 490, 130], "flipX": false },
+    { "texId": "resource/best_sprite/best_sprite (21).png", "texCoord": [0, 0, 490, 130], "flipX": false },
+    { "texId": "resource/best_sprite/best_sprite (22).png", "texCoord": [0, 0, 490, 130], "flipX": false },
+    { "texId": "resource/best_sprite/best_sprite (23).png", "texCoord": [0, 0, 490, 130], "flipX": false },
+    { "texId": "resource/best_sprite/best_sprite (24).png", "texCoord": [0, 0, 490, 130], "flipX": false },
+    { "texId": "resource/best_sprite/best_sprite (25).png", "texCoord": [0, 0, 490, 130], "flipX": false },
+    { "texId": "resource/best_sprite/best_sprite (26).png", "texCoord": [0, 0, 490, 130], "flipX": false }
+  ]
+}

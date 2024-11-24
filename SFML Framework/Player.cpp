@@ -256,6 +256,7 @@ void Player::Draw(sf::RenderWindow& window)
 
 		window.draw(wireLine);   // 와이어 선 그리기
 	}
+	hitBox.Draw(window);
 }
 
 void Player::Shoot()
