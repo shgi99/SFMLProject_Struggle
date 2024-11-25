@@ -173,7 +173,7 @@ void Player::UpdateJump(float dt)
 		if (!tile.first->IsActive()) continue;
 
 		sf::FloatRect tileBounds = tile.first->GetGlobalBounds();
-		if (velocity.y > 0.f && tileBounds.contains(position.x, position.y))
+		if (velocity.y > 0.f && tileBounds.contains(position.x, position.y) && position.y <= wireMin)
 		{
 			velocity.y = 0.f;
 			position.y = tileBounds.top;
@@ -256,7 +256,6 @@ void Player::Draw(sf::RenderWindow& window)
 
 		window.draw(wireLine);   // 와이어 선 그리기
 	}
-	hitBox.Draw(window);
 }
 
 void Player::Shoot()

@@ -114,7 +114,6 @@ void Tower::Draw(sf::RenderWindow& window)
 	if (IsActive())
 	{
 		window.draw(body);
-		hitBox.Draw(window);
 	}
 }
 
